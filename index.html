@@ -10,9 +10,13 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000000;
+            background-color: #121212; /* Cor de fundo externa para destacar o app */
             color: #ffffff;
+            margin: 0;
+            padding: 0;
             -webkit-tap-highlight-color: transparent;
+            display: flex;
+            justify-content: center;
         }
         /* Custom scrollbar for a cleaner look */
         ::-webkit-scrollbar {
@@ -24,6 +28,18 @@
         ::-webkit-scrollbar-thumb {
             background: #1a1a1a;
             border-radius: 10px;
+        }
+        #root {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 <script type="importmap">

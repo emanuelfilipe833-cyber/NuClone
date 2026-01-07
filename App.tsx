@@ -7,7 +7,7 @@ import {
   CheckCircle2, X, Briefcase, Heart, TrendingUp,
   UserPlus, ArrowLeftRight, Landmark, BadgeDollarSign,
   ShoppingBag, LayoutGrid, CircleDollarSign, ArrowLeft,
-  Settings, MessageSquare
+  Settings
 } from 'lucide-react';
 import { Transaction, ViewState } from './types';
 import { INITIAL_BALANCE, MOCK_TRANSACTIONS } from './constants.tsx';
@@ -32,7 +32,8 @@ const App: React.FC = () => {
   }, [balance]);
 
   const handlePixTransfer = () => {
-    const amount = parseFloat(pixAmount.replace(',', '.'));
+    const amountStr = pixAmount.replace(',', '.');
+    const amount = parseFloat(amountStr);
     if (isNaN(amount) || amount <= 0) {
       alert("Por favor, insira um valor válido.");
       return;
@@ -69,13 +70,9 @@ const App: React.FC = () => {
     }).format(value);
   };
 
-  const notImplemented = (feature: string) => {
-    alert(`${feature} será implementado em breve!`);
-  };
-
   const QuickAction = ({ icon: Icon, label, onClick }: { icon: any, label: string, onClick?: () => void }) => (
     <button 
-      onClick={onClick || (() => notImplemented(label))}
+      onClick={onClick || (() => console.log(`Action: ${label}`))}
       className="flex flex-col items-center gap-2 min-w-[76px] group active:scale-95 transition-transform"
     >
       <div className="w-[68px] h-[68px] bg-[#1a1a1a] rounded-full flex items-center justify-center text-white">
@@ -88,20 +85,20 @@ const App: React.FC = () => {
   const HomeView = () => (
     <div className="flex flex-col min-h-screen bg-black text-white pb-24">
       {/* Dynamic Purple Header */}
-      <div className="bg-[#820ad1] pt-6 pb-6 px-4">
+      <div className="bg-[#820ad1] pt-8 pb-6 px-5">
         <div className="flex justify-between items-center mb-8">
           <div 
-            className="w-11 h-11 bg-white/20 rounded-full flex items-center justify-center cursor-pointer active:scale-95 transition-all"
+            className="w-11 h-11 bg-white/20 rounded-full flex items-center justify-center cursor-pointer active:scale-90 transition-all"
             onClick={() => setCurrentView(ViewState.PROFILE)}
           >
             <User size={22} className="text-white" />
           </div>
           <div className="flex gap-5">
-            <button onClick={() => setIsBalanceVisible(!isBalanceVisible)}>
+            <button onClick={() => setIsBalanceVisible(!isBalanceVisible)} className="active:scale-90 transition-transform">
               {isBalanceVisible ? <Eye size={22} /> : <EyeOff size={22} />}
             </button>
-            <HelpCircle size={22} onClick={() => notImplemented("Ajuda")} />
-            <UserPlus size={22} onClick={() => notImplemented("Indicar amigos")} />
+            <HelpCircle size={22} className="cursor-pointer active:scale-90 transition-transform" />
+            <UserPlus size={22} className="cursor-pointer active:scale-90 transition-transform" />
           </div>
         </div>
         <h2 className="text-lg font-bold">Olá, Usuário</h2>
@@ -109,12 +106,12 @@ const App: React.FC = () => {
 
       {/* Account Balance Section */}
       <div 
-        className="p-6 cursor-pointer active:bg-[#121212] transition-colors" 
+        className="p-6 cursor-pointer active:bg-[#0a0a0a] transition-colors" 
         onClick={() => setCurrentView(ViewState.ACCOUNT_DETAILS)}
       >
         <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xl font-semibold">Conta</h3>
-          <ChevronRight size={20} className="text-gray-500" />
+          <h3 className="text-xl font-semibold tracking-tight">Conta</h3>
+          <ChevronRight size={20} className="text-gray-600" />
         </div>
         <div className="h-10 flex items-center">
           {isBalanceVisible ? (
@@ -138,7 +135,7 @@ const App: React.FC = () => {
 
       {/* Feature Cards */}
       <div className="px-6 mt-6 space-y-4">
-        <div className="bg-[#1a1a1a] p-4 rounded-xl flex items-center gap-4 cursor-pointer active:scale-[0.98] transition-transform" onClick={() => notImplemented("Meus cartões")}>
+        <div className="bg-[#1a1a1a] p-4 rounded-xl flex items-center gap-4 cursor-pointer active:scale-[0.98] transition-transform">
           <CreditCard size={20} className="text-white" />
           <span className="text-sm font-semibold">Meus cartões</span>
         </div>
@@ -155,11 +152,11 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
-            <div className="min-w-[280px] bg-[#1a1a1a] p-5 rounded-xl border border-transparent hover:border-white/10 cursor-pointer" onClick={() => notImplemented("Caixinhas")}>
+            <div className="min-w-[280px] bg-[#1a1a1a] p-5 rounded-xl border border-transparent hover:border-white/10 cursor-pointer">
                 <p className="text-sm font-bold text-[#820ad1] mb-2">Conquiste seus planos</p>
                 <p className="text-sm text-gray-400">As Caixinhas do Nu te ajudam a guardar dinheiro para o que importa.</p>
             </div>
-            <div className="min-w-[280px] bg-[#1a1a1a] p-5 rounded-xl cursor-pointer" onClick={() => notImplemented("Seguro")}>
+            <div className="min-w-[280px] bg-[#1a1a1a] p-5 rounded-xl cursor-pointer">
                 <p className="text-sm font-bold text-[#820ad1] mb-2">Seguro Vida</p>
                 <p className="text-sm text-gray-400">Um seguro que cabe no seu bolso e cuida de quem você ama.</p>
             </div>
@@ -169,15 +166,15 @@ const App: React.FC = () => {
       <div className="h-[1px] bg-[#121212] w-full my-6" />
 
       {/* Credit Card Section */}
-      <div className="px-6 pb-6 cursor-pointer active:bg-[#121212] transition-colors" onClick={() => notImplemented("Detalhes do Cartão")}>
+      <div className="px-6 pb-6 cursor-pointer active:bg-[#0a0a0a] transition-colors">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">Cartão de Crédito</h3>
-            <ChevronRight size={20} className="text-gray-500" />
+            <ChevronRight size={20} className="text-gray-600" />
           </div>
           <p className="text-sm font-semibold text-gray-400 mb-2">Fatura atual</p>
           <p className="text-2xl font-bold text-[#00bcd4]">R$ 1.245,90</p>
           <p className="text-sm text-gray-500 mt-1 font-medium">Limite disponível de R$ 3.754,10</p>
-          <button className="mt-4 px-4 py-2 bg-[#1a1a1a] rounded-full text-sm font-bold active:scale-95 transition-all">
+          <button className="mt-4 px-5 py-2.5 bg-[#1a1a1a] rounded-full text-sm font-bold active:scale-95 transition-all">
             Parcelar fatura
           </button>
       </div>
@@ -185,26 +182,26 @@ const App: React.FC = () => {
       <div className="h-[1px] bg-[#121212] w-full my-2" />
 
       {/* Loan Section */}
-      <div className="px-6 py-6 cursor-pointer active:bg-[#121212] transition-colors" onClick={() => notImplemented("Empréstimo")}>
+      <div className="px-6 py-6 cursor-pointer active:bg-[#0a0a0a] transition-colors">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">Empréstimo</h3>
-            <ChevronRight size={20} className="text-gray-500" />
+            <ChevronRight size={20} className="text-gray-600" />
           </div>
-          <p className="text-sm text-gray-400 font-medium">Crie um empréstimo pessoal e realize seus projetos.</p>
+          <p className="text-sm text-gray-400 font-medium leading-relaxed">Crie um empréstimo pessoal e realize seus projetos.</p>
       </div>
 
       {/* Fixed Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-xl border-t border-[#121212] flex justify-around items-center h-[72px] px-2 z-50">
-        <button className="p-3 text-[#820ad1] flex flex-col items-center">
+      <nav className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-xl border-t border-[#121212] flex justify-around items-center h-[72px] px-2 z-50 max-w-md mx-auto">
+        <button className="p-3 text-[#820ad1] flex flex-col items-center active:scale-90 transition-transform">
           <LayoutGrid size={24} />
         </button>
-        <button className="p-3 text-gray-500 flex flex-col items-center" onClick={() => notImplemented("Planejamento")}>
+        <button className="p-3 text-gray-500 flex flex-col items-center active:scale-90 transition-transform">
           <CircleDollarSign size={24} />
         </button>
-        <button className="p-3 text-gray-500 flex flex-col items-center" onClick={() => notImplemented("Shopping")}>
+        <button className="p-3 text-gray-500 flex flex-col items-center active:scale-90 transition-transform">
           <ShoppingBag size={24} />
         </button>
-        <button className="p-3 text-gray-500 flex flex-col items-center" onClick={() => notImplemented("Investimentos")}>
+        <button className="p-3 text-gray-500 flex flex-col items-center active:scale-90 transition-transform">
           <TrendingUp size={24} />
         </button>
       </nav>
@@ -214,12 +211,12 @@ const App: React.FC = () => {
   const AccountDetailsView = () => (
     <div className="flex flex-col min-h-screen bg-black text-white">
       <header className="p-4 flex items-center justify-between border-b border-[#121212]">
-        <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2 hover:bg-[#1a1a1a] rounded-full">
+        <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2 hover:bg-[#1a1a1a] rounded-full active:scale-90 transition-transform">
           <ArrowLeft size={24} />
         </button>
         <div className="flex gap-4">
-          <Search size={22} className="text-white" onClick={() => notImplemented("Busca")} />
-          <HelpCircle size={22} className="text-white" onClick={() => notImplemented("Ajuda")} />
+          <Search size={22} className="text-white cursor-pointer active:scale-90 transition-transform" />
+          <HelpCircle size={22} className="text-white cursor-pointer active:scale-90 transition-transform" />
         </div>
       </header>
 
@@ -236,13 +233,13 @@ const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-[#1a1a1a] h-2 w-full" />
+      <div className="bg-[#0a0a0a] h-2 w-full" />
 
       <div className="p-6 flex-1">
         <h3 className="text-xl font-bold mb-6">Histórico</h3>
         <div className="space-y-8 pb-10">
           {transactions.map(tx => (
-            <div key={tx.id} className="flex justify-between items-center cursor-pointer active:opacity-70 transition-opacity">
+            <div key={tx.id} className="flex justify-between items-center cursor-pointer active:opacity-60 transition-opacity">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 bg-[#1a1a1a] rounded-full flex items-center justify-center">
                   {tx.type === 'pix' ? <ArrowUpCircle size={20} className="text-white" /> : <CreditCard size={20} />}
@@ -268,11 +265,11 @@ const App: React.FC = () => {
   const PixFlowView = () => (
     <div className="flex flex-col h-screen bg-black text-white">
       <header className="p-4 flex items-center justify-between">
-        <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2 hover:bg-[#1a1a1a] rounded-full">
+        <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2 hover:bg-[#1a1a1a] rounded-full active:scale-90 transition-transform">
           <X size={26} />
         </button>
         <h2 className="text-lg font-bold">Área Pix</h2>
-        <HelpCircle size={22} className="text-gray-400" onClick={() => notImplemented("Ajuda Pix")} />
+        <HelpCircle size={22} className="text-gray-400 cursor-pointer" />
       </header>
 
       <div className="p-6 flex-1 flex flex-col gap-10">
@@ -285,7 +282,7 @@ const App: React.FC = () => {
               value={pixAmount}
               onChange={(e) => setPixAmount(e.target.value.replace(/[^0-9,]/g, ''))}
               placeholder="0,00"
-              className="w-full bg-transparent border-b-2 border-[#820ad1] pl-12 py-3 text-5xl font-bold focus:outline-none placeholder:text-gray-800"
+              className="w-full bg-transparent border-b-2 border-[#820ad1] pl-12 py-3 text-5xl font-bold focus:outline-none placeholder:text-gray-900"
               autoFocus
             />
           </div>
@@ -301,17 +298,17 @@ const App: React.FC = () => {
             value={pixRecipient}
             onChange={(e) => setPixRecipient(e.target.value)}
             placeholder="Nome, CPF ou chave Pix"
-            className="w-full bg-[#1a1a1a] rounded-xl px-4 py-5 font-medium focus:outline-none focus:ring-2 focus:ring-[#820ad1] placeholder:text-gray-600"
+            className="w-full bg-[#1a1a1a] rounded-xl px-4 py-5 font-medium focus:outline-none focus:ring-2 focus:ring-[#820ad1] placeholder:text-gray-700"
           />
         </div>
 
-        <div className="mt-auto pb-6">
+        <div className="mt-auto pb-8">
           <button 
             onClick={handlePixTransfer}
             disabled={isProcessing || !pixAmount || !pixRecipient}
-            className={`w-full py-5 rounded-full font-bold text-lg transition-all transform active:scale-95 ${
+            className={`w-full py-5 rounded-full font-bold text-lg transition-all transform active:scale-95 shadow-lg ${
               (isProcessing || !pixAmount || !pixRecipient) 
-              ? 'bg-gray-900 text-gray-600 cursor-not-allowed' 
+              ? 'bg-gray-900 text-gray-700 cursor-not-allowed' 
               : 'bg-[#820ad1] text-white'
             }`}
           >
@@ -343,7 +340,7 @@ const App: React.FC = () => {
         >
           Ok, entendi
         </button>
-        <button className="w-full py-5 bg-[#1a1a1a] rounded-full font-bold text-lg active:scale-95 transition-transform" onClick={() => notImplemented("Comprovante")}>
+        <button className="w-full py-5 bg-[#1a1a1a] rounded-full font-bold text-lg active:scale-95 transition-transform">
           Ver comprovante
         </button>
       </div>
@@ -353,12 +350,12 @@ const App: React.FC = () => {
   const ProfileView = () => (
       <div className="flex flex-col h-screen bg-black text-white">
           <header className="p-4 flex items-center justify-between border-b border-[#121212]">
-              <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2">
+              <button onClick={() => setCurrentView(ViewState.HOME)} className="p-2 active:scale-90 transition-transform">
                   <X size={26} />
               </button>
               <h2 className="text-lg font-bold">Perfil</h2>
               <div className="flex gap-4">
-                <Settings size={22} className="text-white" onClick={() => notImplemented("Configurações")} />
+                <Settings size={22} className="text-white cursor-pointer active:scale-90 transition-transform" />
               </div>
           </header>
           <div className="p-8 flex flex-col items-center">
@@ -366,9 +363,9 @@ const App: React.FC = () => {
                     <User size={48} className="text-white" />
                 </div>
                 <h3 className="text-2xl font-bold mb-1">Usuário Nu</h3>
-                <p className="text-gray-400 font-medium">Agência 0001 • Conta 1053469-0</p>
-                <div className="mt-4 px-3 py-1 bg-[#1a1a1a] rounded-full text-[10px] font-black uppercase tracking-tighter text-gray-500">
-                    Membro desde 2021
+                <p className="text-gray-400 font-medium tracking-tight">Agência 0001 • Conta 1053469-0</p>
+                <div className="mt-4 px-3 py-1 bg-[#1a1a1a] rounded-full text-[10px] font-black uppercase tracking-widest text-gray-500">
+                    Membro Gold
                 </div>
           </div>
           <div className="p-4 space-y-2 overflow-y-auto no-scrollbar">
@@ -380,12 +377,12 @@ const App: React.FC = () => {
                 { label: 'Ajuda', icon: HelpCircle },
                 { label: 'Sair do App', icon: X }
               ].map((item) => (
-                  <div key={item.label} className="p-5 bg-[#1a1a1a] rounded-xl flex justify-between items-center cursor-pointer active:scale-[0.99] transition-all" onClick={() => notImplemented(item.label)}>
+                  <div key={item.label} className="p-5 bg-[#1a1a1a] rounded-xl flex justify-between items-center cursor-pointer active:scale-[0.99] transition-all">
                       <div className="flex items-center gap-4">
                         <item.icon size={20} className="text-gray-400" />
                         <span className="font-semibold text-[15px]">{item.label}</span>
                       </div>
-                      <ChevronRight size={18} className="text-gray-600" />
+                      <ChevronRight size={18} className="text-gray-700" />
                   </div>
               ))}
           </div>
@@ -393,7 +390,7 @@ const App: React.FC = () => {
   )
 
   return (
-    <div className="max-w-md mx-auto min-h-screen shadow-2xl overflow-hidden font-sans relative selection:bg-[#820ad1] selection:text-white">
+    <div className="w-full max-w-md mx-auto min-h-screen bg-black shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden font-sans relative selection:bg-[#820ad1] selection:text-white border-x border-[#121212]">
       {currentView === ViewState.HOME && <HomeView />}
       {currentView === ViewState.PIX_FLOW && <PixFlowView />}
       {currentView === ViewState.SUCCESS && <SuccessView />}
